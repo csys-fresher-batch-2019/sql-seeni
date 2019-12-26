@@ -1,0 +1,11 @@
+drop table work;
+create table work{
+task varchar(100) not null,
+By varchar(100) not null,
+deadline date not null,
+complete on timestamp default SYSDATE,
+status char(1),
+contraint status_ck check(status_ck in ('y','n'))
+};
+insert into work(task,By,deadline,completed on,status) values(1,'SEENI',to_date('26-12-2019','dd-mm-yyyy'),'y');
+select * from work;
