@@ -9,8 +9,6 @@ FEATURES
 FEATURE 1:List of songs
 
 create table song_list(
-song_id number,
-constraint sid_fk foreign key(song_id) references industry(song_id),
 song_name varchar(100) not null unique,
 song_duration number not null,
 constraints dura_cq check(song_duration>0),
