@@ -11,7 +11,7 @@ FEATURE 1:List of songs
 create table song_list(
 song_name varchar(100) not null unique,
 song_duration number not null,
-constraints dura_cq check(song_duration>0),
+constraints dura_cq check(song_duration>10),
 song_size number not null,
 music_director varchar(100) not null,
 released_year number not null,
