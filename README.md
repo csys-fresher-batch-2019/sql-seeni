@@ -10,8 +10,7 @@ http://wynkmusic.com
 
 QUERY:
 
-```
-
+```sql
 create table song_list(
 song_name varchar(100) not null unique,
 song_duration number not null,
