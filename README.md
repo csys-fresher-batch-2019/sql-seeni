@@ -2,11 +2,15 @@
 
 http://wynkmusic.com
 
-FEATURES
+## FEATURE
 
     Users should able to view all the songs
     
-FEATURE 1:List of songs
+### FEATURE 1:List of songs
+
+QUERY:
+
+```
 
 create table song_list(
 song_name varchar(100) not null unique,
@@ -22,3 +26,4 @@ constraints lang_ck check(status in('TAMIL','ENGLISH','MALAYALAM','TELUGU')),
 actor_name varchar(100),
 );
 
+```
