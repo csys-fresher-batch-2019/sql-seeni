@@ -13,6 +13,7 @@ email_id varchar2(50) not null,
 password varchar2(30) not null,
 constraint pwd_ck check(length(password)>=8),
 constraints uname_pwd_uq unique(username,password),
+constraints ename_pwd_uq unique(email_id,password),
 mobile_no number not null,
 constraint mno_ck check(mobile_no between 1000000000 and 9999999999)
 );
@@ -85,30 +86,32 @@ constraints syear_ck check(song_released_year between 2000 and 2020),
 song_tone varchar(20) not null,
 constraints stune_ck check(song_tone in('MELODY','LOVE','ROCK','JAZZ','HIP HOP')),
 song_duration_in_seconds number not null,
-constraints sdu
-ration_ck check(song_duration_in_seconds>0),
+constraints sduration_ck check(song_duration_in_seconds>0),
 song_size_in_mb number not null,
 constraints ssize_ck check(song_size_in_mb>0),
 song_lang varchar2(30) not null,
-constraints slang_ck check(song_lang in ('TAMIL','ENGLISH','HINDI'))
+constraints slang_ck check(song_lang in ('TAMIL','ENGLISH','HINDI')),
+download_date date,
+constraints ddate_ck check(download_date>=song_released_date)
 );
 
 INSERT QUERY
 
-insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(1,2016,'LOVE',243,5.64,'TAMIL');
-insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(2,2019,'JAZZ',310,10.8,'TAMIL');
-insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(3,2011,'LOVE',217,6.66,'ENGLISH');
-insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(4,2008,'JAZZ',346,10.66,'HINDI');
+insert into year(song_number,song_released_date,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang,download_date) values(1,to_date('11-10-2016','dd-mm-yyyy'),'LOVE',243,5.64,'TAMIL',to_date('28-10-2016','dd-mm-yyyy'));
+insert into year(song_number,song_released_date,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang,download_date) values(2,to_date('11-10-2019','dd-mm-yyyy'),'JAZZ',310,10.8,'TAMIL',to_date('21-10-2019','dd-mm-yyyy'));
+insert into year(song_number,song_released_date,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang,download_date) values(3,to_date('05-08-2012','dd-mm-yyyy'),'LOVE',217,6.66,'ENGLISH',to_date('11-11-2013','dd-mm-yyyy'));
+insert into year(song_number,song_released_date,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang,download_date) values(4,to_date('09-09-2009','dd-mm-yyyy'),'JAZZ',346,10.66,'HINDI',to_date('14-3-2012','dd-mm-yyyy'));
 select * from year;
 
 TABLE
-| SONG_NUMBER | SONG_RELEASED_YEAR | SONG_TONE | SONG_DURATION_IN_SECONDS | SONG_SIZE_IN_MB | SONG_LANG |
-|-------------|--------------------|-----------|--------------------------|-----------------|-----------|
-| 1           | 2016               | LOVE      | 243                      | 5.64            | TAMIL     |
-| 2           | 2019               | JAZZ      | 310                      | 10.8            | TAMIL     |
-| 3           | 2011               | LOVE      | 217                      | 6.66            | ENGLISH   |
-| 4           | 2008               | JAZZ      | 346                      | 10.66           | HINDI     |
 
+
+| SONG_NUMBER | SONG_RELEASED_YEAR | SONG_TONE | SONG_DURATION_IN_SECONDS | SONG_SIZE_IN_MB | SONG_LANG | DOWNLOAD_DATE |
+|-------------|--------------------|-----------|--------------------------|-----------------|-----------|---------------|
+| 1           | 11-10-16           | LOVE      | 243                      | 5.64            | TAMIL     | 28-10-16      |
+| 2           | 11-10-19           | JAZZ      | 310                      | 10.8            | TAMIL     | 21-10-19      |
+| 3           | 05-08-12           | LOVE      | 217                      | 6.66            | ENGLISH   | 11-11-13      |
+| 4           | 09-09-09           | JAZZ      | 346                      | 10.66           | HINDI     | 14-03-12      |
 
 TABLE QUERY
 
@@ -133,13 +136,14 @@ INSERT QUERY
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(101,'SHUFFLE ALL',4.5,'PLAY',3,'Y');
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(102,'SEQUENCE',2.5,'PAUSE',1,'N');
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(103,'SEQUENCE',3,'PAUSE',1,'Y');
+update userchoice set song_sequence='SEQUENCE' where user_id=101;
 select * from userchoice;
 
 TABLE
 
 | USER_ID | SONG_SEQUENCE | BUTTON | ADD_TO_FAVOURITES | SONG_WANTS_TO_PLAY | SONG_RATING |
 |---------|---------------|--------|-------------------|--------------------|-------------|
-| 101     | SHUFFLE ALL   | PLAY   | Y                 | 3                  | 4.5         |
+| 101     | SEQUENCE      | PLAY   | Y                 | 3                  | 4.5         |
 | 102     | SEQUENCE      | PAUSE  | N                 | 1                  | 2.5         |
 | 103     | SEQUENCE      | PAUSE  | Y                 | 1                  | 3           |
 
