@@ -1,3 +1,7 @@
+##SONGS LIST
+
+```sql
+
 ###TABLE QUERY
 
 drop table userlogin;
@@ -138,3 +142,5 @@ select * from userchoice;
 | 101     | SHUFFLE ALL   | PLAY   | Y                 | 3                  | 4.5         |
 | 102     | SEQUENCE      | PAUSE  | N                 | 1                  | 2.5         |
 | 103     | SEQUENCE      | PAUSE  | Y                 | 1                  | 3           |
+
+```sql
