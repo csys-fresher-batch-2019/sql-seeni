@@ -128,7 +128,8 @@ constraints button_ck check (button in ('PAUSE','PLAY')),
 song_wants_to_play number not null,
 constraints wtp_fk foreign key(song_wants_to_play) references song_list(song_number),
 add_to_favourites char(1),
-constraints atf_ck check(add_to_favourites in('Y','N'))
+constraints atf_ck check(add_to_favourites in('Y','N')),
+premium_amount number default 400
 );
 
 INSERT QUERY
@@ -141,10 +142,69 @@ select * from userchoice;
 
 TABLE
 
-| USER_ID | SONG_SEQUENCE | BUTTON | ADD_TO_FAVOURITES | SONG_WANTS_TO_PLAY | SONG_RATING |
-|---------|---------------|--------|-------------------|--------------------|-------------|
-| 101     | SEQUENCE      | PLAY   | Y                 | 3                  | 4.5         |
-| 102     | SEQUENCE      | PAUSE  | N                 | 1                  | 2.5         |
-| 103     | SEQUENCE      | PAUSE  | Y                 | 1                  | 3           |
+| USER_ID | SONG_SEQUENCE | SONG_RATING | BUTTON | SONG_WANTS_TO_PLAY | ADD_TO_FAVOURITES | PREMIUM_AMOUNT |
+|---------|---------------|-------------|--------|--------------------|-------------------|----------------|
+| 101     | SEQUENCE      | 4.5         | PLAY   | 3                  | Y                 | 400            |
+| 102     | SEQUENCE      | 2.5         | PAUSE  | 1                  | N                 | 400            |
+| 103     | SEQUENCE      | 3           | PAUSE  | 1                  | Y                 | 400            |
 
 
+TABLE QUERY
+
+DROP TABLE ACCOUNT_INFO;
+CREATE TABLE ACCOUNT_INFO(
+WANTS_TO_PREMIUM CHAR(1),
+CONSTRAINTS WT_CK CHECK(WANTS_TO_PREMIUM IN('Y','N')),
+ACCOUNT_NO NUMBER NOT NULL UNIQUE,
+--CONSTRAINTS AC_NO_CK CHECK(ACCOUNT_NO BETWEEN(1000000000000000 AND 9999999999999999)),
+USER_ID NUMBER NOT NULL,
+CONSTRAINTS UI_FK FOREIGN KEY(USER_ID) REFERENCES USERLOGIN(USER_ID),
+BALANCE NUMBER NOT NULL,
+CONSTRAINTS BAL_CK CHECK(BALANCE>=0)
+);
+
+INSERT QUERY
+
+INSERT INTO ACCOUNT_INFO(WANTS_TO_PREMIUM,ACCOUNT_NO,USER_ID,BALANCE) VALUES('Y',1234567890123456,102,500);
+INSERT INTO ACCOUNT_INFO(WANTS_TO_PREMIUM,ACCOUNT_NO,USER_ID,BALANCE) VALUES('Y',3948123456789019,101,300);
+INSERT INTO ACCOUNT_INFO(WANTS_TO_PREMIUM,ACCOUNT_NO,USER_ID,BALANCE) VALUES('N',1981234156273890,103,400);
+ALTER TABLE ACCOUNT_INFO ADD(PREMIUM CHAR(1),REMAINING_BAL NUMBER);
+
+UPDATE ACCOUNT_INFO SET PREMIUM='Y' WHERE BALANCE>=400 AND WANTS_TO_PREMIUM='Y';
+UPDATE ACCOUNT_INFO SET PREMIUM='N' WHERE PREMIUM IS NULL; 
+UPDATE ACCOUNT_INFO SET REMAINING_BAL=BALANCE-400 WHERE PREMIUM='Y';
+UPDATE ACCOUNT_INFO SET REMAINING_BAL=BALANCE WHERE REMAINING_BAL IS NULL;
+SELECT * FROM ACCOUNT_INFO;
+
+TABLE
+
+| WANTS_TO_PREMIUM | ACCOUNT_NO       | USER_ID | BALANCE | PREMIUM | REMAINING_BAL |
+|------------------|------------------|---------|---------|---------|---------------|
+| Y                | 1234567890123456 | 102     | 500     | Y       | 100           |
+| Y                | 3948123456789019 | 101     | 300     | N       | 300           |
+| N                | 1981234156273890 | 103     | 400     | N       | 400           |
+
+PROCEDURE QUERY
+
+EXEC PROCEDURE1('Y');
+create or replace PROCEDURE PROCEDURE1(PREMIUM CHAR) AS
+   VAR VARCHAR(10);
+    
+BEGIN
+    IF PREMIUM='Y' THEN 
+        SELECT USERNAME INTO VAR FROM USERLOGIN WHERE USER_ID=(SELECT USER_ID FROM ACCOUNT_INFO WHERE PREMIUM='Y');
+        DBMS_OUTPUT.PUT_LINE('THANK YOU FOR PAYMENT Mr.'||VAR);
+        DBMS_OUTPUT.PUT_LINE('NOW YOU CAN ABLE TO PLAY AND DOWNLOAD YOUR SONGS');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('YOU CAN ABLE TO PLAY THE SONG ONLY');
+    END IF;
+END PROCEDURE1;
+
+
+OUTPUT
+
+Statement processed.
+THANK YOU FOR PAYMENT Mr.RAJU
+NOW YOU CAN ABLE TO PLAY AND DOWNLOAD YOUR SONGS
+
+Procedure created.
