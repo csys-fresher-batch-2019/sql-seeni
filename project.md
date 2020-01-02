@@ -2,7 +2,7 @@
 
 ```sql
 
-###TABLE QUERY
+TABLE QUERY
 
 drop table userlogin;
 create table userlogin(
@@ -17,7 +17,7 @@ mobile_no number not null,
 constraint mno_ck check(mobile_no between 1000000000 and 9999999999)
 );
 
-###INSERT QUERY
+INSERT QUERY
 
 insert into userlogin(user_id,username,email_id,password,mobile_no) values(101,'SATHISH','s@gmail.com',12345678,9182734579);
 insert into userlogin(user_id,username,email_id,password,mobile_no) values(102,'RAJU','r@gmail.com',87654321,9127287587);
@@ -25,7 +25,7 @@ insert into userlogin(user_id,username,email_id,password,mobile_no) values(103,'
 select * from userlogin;
 
 
-###TABLE
+TABLE
 
 | USER_ID | USERNAME | EMAIL_ID     | PASSWORD | MOBILE_NO  |
 |---------|----------|--------------|----------|------------|
@@ -34,7 +34,7 @@ select * from userlogin;
 | 103     | RAJ      | ra@gmail.com | 12676831 | 9387892572 |
 
 
-####TABLE QUERY
+TABLE QUERY
 
 drop table song_list;
 create table song_list(
@@ -48,7 +48,7 @@ movie_name varchar2(40),
 constraints mname_sname_uq unique(song_name,movie_name)
 );
 
-###INSERT QUERY
+INSERT QUERY
 
 
 insert into song_list(song_number,song_name,music_director,lyricist,singers,movie_name)
@@ -62,7 +62,7 @@ values(4,'JAI HO','AR RAHMAN','AR RAHMAN','AR RAHMAN','SLUMDOG MILLIONAIRE');
 select * from song_list;
 
 
-###TABLE
+TABLE
 
 
 | SONG_NUMBER | SONG_NAME         | MUSIC_DTRECTOR     | LYRICIST      | SINGERS            | MOVIE_NAME          |
@@ -74,7 +74,7 @@ select * from song_list;
 
 
 
-###SELECT QUERY
+SELECT QUERY
 
 drop table year;
 create table year(
@@ -93,7 +93,7 @@ song_lang varchar2(30) not null,
 constraints slang_ck check(song_lang in ('TAMIL','ENGLISH','HINDI'))
 );
 
-###INSERT QUERY
+INSERT QUERY
 
 insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(1,2016,'LOVE',243,5.64,'TAMIL');
 insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(2,2019,'JAZZ',310,10.8,'TAMIL');
@@ -101,7 +101,7 @@ insert into year(song_number,song_released_year,song_tone,song_duration_in_secon
 insert into year(song_number,song_released_year,song_tone,song_duration_in_seconds,song_size_in_mb,song_lang) values(4,2008,'JAZZ',346,10.66,'HINDI');
 select * from year;
 
-###TABLE
+TABLE
 | SONG_NUMBER | SONG_RELEASED_YEAR | SONG_TONE | SONG_DURATION_IN_SECONDS | SONG_SIZE_IN_MB | SONG_LANG |
 |-------------|--------------------|-----------|--------------------------|-----------------|-----------|
 | 1           | 2016               | LOVE      | 243                      | 5.64            | TAMIL     |
@@ -110,7 +110,7 @@ select * from year;
 | 4           | 2008               | JAZZ      | 346                      | 10.66           | HINDI     |
 
 
-###TABLE QUERY
+TABLE QUERY
 
 drop table userchoice;
 create table userchoice(
@@ -128,14 +128,14 @@ add_to_favourites char(1),
 constraints atf_ck check(add_to_favourites in('Y','N'))
 );
 
-###INSERT QUERY
+INSERT QUERY
 
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(101,'SHUFFLE ALL',4.5,'PLAY',3,'Y');
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(102,'SEQUENCE',2.5,'PAUSE',1,'N');
 insert into userchoice(user_id,song_sequence,song_rating,button,song_wants_to_play,add_to_favourites) values(103,'SEQUENCE',3,'PAUSE',1,'Y');
 select * from userchoice;
 
-###TABLE
+TABLE
 
 | USER_ID | SONG_SEQUENCE | BUTTON | ADD_TO_FAVOURITES | SONG_WANTS_TO_PLAY | SONG_RATING |
 |---------|---------------|--------|-------------------|--------------------|-------------|
@@ -143,4 +143,4 @@ select * from userchoice;
 | 102     | SEQUENCE      | PAUSE  | N                 | 1                  | 2.5         |
 | 103     | SEQUENCE      | PAUSE  | Y                 | 1                  | 3           |
 
-```sql
+
