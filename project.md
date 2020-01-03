@@ -128,8 +128,7 @@ constraints button_ck check (button in ('PAUSE','PLAY')),
 song_wants_to_play number not null,
 constraints wtp_fk foreign key(song_wants_to_play) references song_list(song_number),
 add_to_favourites char(1),
-constraints atf_ck check(add_to_favourites in('Y','N')),
-premium_amount number default 400
+constraints atf_ck check(add_to_favourites in('Y','N'))
 );
 
 INSERT QUERY
@@ -160,7 +159,8 @@ ACCOUNT_NO NUMBER NOT NULL UNIQUE,
 USER_ID NUMBER NOT NULL,
 CONSTRAINTS UI_FK FOREIGN KEY(USER_ID) REFERENCES USERLOGIN(USER_ID),
 BALANCE NUMBER NOT NULL,
-CONSTRAINTS BAL_CK CHECK(BALANCE>=0)
+CONSTRAINTS BAL_CK CHECK(BALANCE>=0),
+PREMIUM_AMOUNT NUMBER DEFAULT 400
 );
 
 INSERT QUERY
@@ -178,11 +178,11 @@ SELECT * FROM ACCOUNT_INFO;
 
 TABLE
 
-| WANTS_TO_PREMIUM | ACCOUNT_NO       | USER_ID | BALANCE | PREMIUM | REMAINING_BAL |
-|------------------|------------------|---------|---------|---------|---------------|
-| Y                | 1234567890123456 | 102     | 500     | Y       | 100           |
-| Y                | 3948123456789019 | 101     | 300     | N       | 300           |
-| N                | 1981234156273890 | 103     | 400     | N       | 400           |
+PREMIUM_AMOUNT | WANTS_TO_PREMIUM | ACCOUNT_NO       | USER_ID | BALANCE | PREMIUM | REMAINING_BAL |
+---------------|------------------|------------------|---------|---------|---------|---------------|
+      400      | Y                | 1234567890123456 | 102     | 500     | Y       | 100           |
+      400      | Y                | 3948123456789019 | 101     | 300     | N       | 300           |
+      400      | N                | 1981234156273890 | 103     | 400     | N       | 400           |
 
 PROCEDURE QUERY
 
