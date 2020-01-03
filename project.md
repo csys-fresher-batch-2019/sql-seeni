@@ -1,9 +1,6 @@
-
-```sql
-
 #ONLINE MUSIC PLAYER
 
-
+```sql
 
 TABLE QUERY
 
